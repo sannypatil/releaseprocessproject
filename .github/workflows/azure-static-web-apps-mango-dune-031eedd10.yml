@@ -32,15 +32,16 @@ jobs:
           output_location: "/"
 
       # New step for creating and pushing a tag
-      - name: Tagging
-        if: github.event_name == 'push'
-        run: |
-          # Simple tag based on datetime
-          TAG=$(date +'%Y%m%d%H%M%S')
-          git tag $TAG
-          git push origin $TAG
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push Tag
+    env:
+     MY_PAT: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+     run: |
+      git config --global user.email "sannypatil_007@hotmail.com"
+      git config --global user.name "sannypatil"
+      TAG=$(date +'%Y%m%d%H%M%S')
+      git tag $TAG
+      git push https://github.com/sannypatil/releaseprocessproject.git $TAG
+
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
