@@ -1,0 +1,9 @@
+name: Continuous Integration
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      run: echo "Run your test suite"
