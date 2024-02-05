@@ -33,14 +33,14 @@ jobs:
 
       # New step for creating and pushing a tag
       - name: Push Tag
-    env:
-     MY_PAT: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
-     run: |
-      git config --global user.email "sannypatil_007@hotmail.com"
-      git config --global user.name "sannypatil"
-      TAG=$(date +'%Y%m%d%H%M%S')
-      git tag $TAG
-      git push https://github.com/sannypatil/releaseprocessproject.git $TAG
+        env:
+          MY_PAT: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+        run: |
+          git config --global user.email "sannypatil_007@hotmail.com"
+          git config --global user.name "sannypatil"
+          TAG=$(date +'%Y%m%d%H%M%S')
+          git tag $TAG
+          git push https://github.com/sannypatil/releaseprocessproject.git $TAG
 
 
   close_pull_request_job:
