@@ -36,17 +36,15 @@ jobs:
 
       # Automated step for bumping tag using GitHub Tag Bump action
       - name: Bump version and push tag
-        if: success()
+        id: tag_version
         uses: anothrNick/github-tag-action@1.22.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+          release_branches: main
+          # You can configure these or other inputs as per your requirements
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch # or minor or major, based on your versioning strategy
-          WITH_V: true # to tag the version as 'v1.0.0' instead of '1.0.0'
-
-      - name: Print latest tag
-        if: success()
-        run: git describe --tags `git rev-list --tags --max-count=1`
-
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
