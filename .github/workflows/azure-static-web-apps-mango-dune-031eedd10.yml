@@ -8,9 +8,10 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
-      
+
 permissions: # Adjusting permissions for the GITHUB_TOKEN
   contents: write
+  issues: write
 
 jobs:
   build_and_deploy_job:
@@ -33,15 +34,14 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "/" # Built app content directory - optional
 
-      # New step for tagging
-      - name: Create and push tag
+      # Automated step for bumping tag using GitHub Tag Bump action
+      - name: Bump version and push tag
         if: success()
-        run: |
-          TAG="release-$(date +'%Y%m%d%H%M%S')"
-          git tag $TAG
-          git push origin $TAG
+        uses: anothrNick/github-tag-action@1.22.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch # or minor or major, based on your versioning strategy
+          WITH_V: true # to tag the version as 'v1.0.0' instead of '1.0.0'
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
