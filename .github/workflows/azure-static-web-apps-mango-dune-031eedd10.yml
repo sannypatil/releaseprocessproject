@@ -43,6 +43,11 @@ jobs:
           DEFAULT_BUMP: patch # or minor or major, based on your versioning strategy
           WITH_V: true # to tag the version as 'v1.0.0' instead of '1.0.0'
 
+      - name: Print latest tag
+        if: success()
+        run: git describe --tags `git rev-list --tags --max-count=1`
+
+
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
